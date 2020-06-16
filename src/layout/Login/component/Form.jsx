@@ -8,9 +8,11 @@ const FromItem = Form.Item
 function Validator(rule, value, callback) {
   const pwdReg = /^[a-zA-Z0-9_]+$/
   if (pwdReg.test(value)) {
-    return callback()
+    // return callback()
+    return Promise.resolve()
   }
-  callback(new Error('密码必须是英文、数组或下划线组成'))
+  // return callback(new Error('密码必须是英文、数组或下划线组成'))
+  return Promise.reject("密码必须是英文、数组或下划线组成'")
 }
 // 输入验证规则
 const loginRules = {
@@ -26,23 +28,23 @@ const FormMenu = (props) => {
   //直接在组件内部使用useForm（）;  得到强大的功能对象，form
   const [form] = Form.useForm()
 
-  const onFinish = (values1) => {
+  const onFinish = (values) => {
     form
-      .validateFields().then((values2) => {
-          props.login(values1.username,values1.password)
-        console.log(values1)
+      .validateFields()
+      .then((value) => {
+        props.login(values.username, values.password)
       })
       .catch((errorInfo) => {
-         return message.error('登录失败')
+        return message.error('登录失败')
       })
   }
   return (
     <Form name="normal_login" className="login-form" initialValues={{ remember: true }} onFinish={onFinish}>
       <FromItem name="username" rules={loginRules.userName}>
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="admin"  autocomplete="off"/>
       </FromItem>
       <Form.Item name="password" rules={loginRules.password}>
-        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="密码"/>
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
