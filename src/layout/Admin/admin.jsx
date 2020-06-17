@@ -52,7 +52,7 @@ export default class Admin extends Component {
           <LeftNva></LeftNva>
         </Sider>
         <Layout className="site-layout">
-          <Header toggle={this.toggle} collapsed={this.state.collapsed}></Header>
+          <Header toggle={this.toggle} collapsed={this.state.collapsed} location={this.props.location} history={this.props.history}></Header>
           <Content className="site-layout-background" style={{ margin: '24px 16px', padding: 24, minHeight: screenHeight }}>
             <Switch>
               <Route path="/home" component={Home} />

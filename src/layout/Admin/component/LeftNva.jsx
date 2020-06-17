@@ -39,7 +39,6 @@ export default class LeftNav extends Component {
     })
   }
   render() {
-    console.log(menuConfig)
     return (
       <div className="left-nav">
         <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={this.state.collapsed}>
