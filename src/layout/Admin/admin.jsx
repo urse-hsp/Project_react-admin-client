@@ -49,7 +49,7 @@ export default class Admin extends Component {
               { !this.state.collapsed && <h1>后台管理系统</h1> }
             </Link>
           </div>
-          <LeftNva></LeftNva>
+          <LeftNva location={this.props.location}></LeftNva>
         </Sider>
         <Layout className="site-layout">
           <Header toggle={this.toggle} collapsed={this.state.collapsed} location={this.props.location} history={this.props.history}></Header>

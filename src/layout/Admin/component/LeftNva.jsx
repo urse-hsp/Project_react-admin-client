@@ -39,9 +39,11 @@ export default class LeftNav extends Component {
     })
   }
   render() {
+    console.log()
+    const path = this.props.location.pathname
     return (
       <div className="left-nav">
-        <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={this.state.collapsed}>
+        <Menu defaultSelectedKeys={['1']} mode="inline" theme="dark" inlineCollapsed={this.state.collapsed} selectedKeys={path}>
           {this.menuConfig(menuConfig)}
         </Menu>
       </div>
