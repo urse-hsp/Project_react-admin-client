@@ -106,7 +106,7 @@ class Category extends Component {
             ) : (
                 <span>
                     <LinkButton onClick={this.showCategorys}>一级分类列表</LinkButton>
-                    <span> &gt </span>
+                    <span> &gt; </span>
                     <span>{parentName}</span>
                 </span>
             )

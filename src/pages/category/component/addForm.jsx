@@ -10,14 +10,18 @@ const Option = Select.Option
 // }
 
 const AddForm = (props) => {
-    // const [form] = Form.useForm()
+    const [form] = Form.useForm()
     const chengOption = () => {
-        console.log(props)
+        var data = form.getFieldValue('classifyName')
+        console.log(data)
     }
     const categorys = props.categorys
     return (
         <Form>
-            <FromItem>
+            <FromItem
+               label="所属分类："
+               name = "classify"
+            >
                 <Select onChange={chengOption} name='userName'>
                     <Option value="0">一级分类</Option>
                     {categorys.map((c) => (
@@ -26,7 +30,10 @@ const AddForm = (props) => {
                 </Select>
             </FromItem>
 
-            <FromItem>
+            <FromItem
+                label="分类名称："
+                name='classifyName'
+            >
                 <Input type="text" placeholder="请输入分类名称 " />
             </FromItem>
         </Form>
