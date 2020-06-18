@@ -11,6 +11,8 @@ export const reqLogin = (username, password) =>
     },
     'POST'
   )
+// const BASE = 'http://localhost:5000'
+const BASE = ''
 
 /*通过 jsonp 请求获取天气信息 */
 // export function reqWeather(city) {
@@ -35,27 +37,12 @@ export const reqLogin = (username, password) =>
 // }
 
 // 获取一级或某个二级分类列表
-export const reqCategorys = (parentId) =>
-  http('/manage/category/list', {
-    parentId,
-  })
+// 获取一级/二级分类的列表
+export const reqCategorys = (parentId) => http(BASE + '/manage/category/list', {parentId})
+
 // 添加分类
-export const reqAddCategory = (parentId, categoryName) =>
-  http(
-    '/manage/category/add',
-    {
-      parentId,
-      categoryName,
-    },
-    'POST'
-  )
-// 更新品类名称
-export const reqUpdateCategory = ({ categoryId, categoryName }) =>
-  http(
-    '/manage/category/update',
-    {
-      categoryId,
-      categoryName,
-    },
-    'POST'
-  )
+export const reqAddCategory = (categoryName, parentId) => http(BASE + '/manage/category/add', {categoryName, parentId}, 'POST')
+
+// 更新分类
+export const reqUpdateCategory = ({categoryId, categoryName}) => http(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
+

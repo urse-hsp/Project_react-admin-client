@@ -9,7 +9,7 @@ import menuConfig from '../../../config/menuConfig'
 import { formateDate } from '../../../utils/dateUtils'
 import memoryUtils from '../../../utils/memoryUtils'
 import storageUtils from '../../../utils/storageUtils'
-import LinkButton from './Link-button'
+import LinkButton from '../../../components/Link-button'
 const { Header } = Layout
 
 /*左侧导航组件

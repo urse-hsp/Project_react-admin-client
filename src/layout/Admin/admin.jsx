@@ -25,50 +25,50 @@ const screenHeight = window.innerHeight || document.documentElement.clientHeight
 /*后台管理的路由组件*/
 
 export default class Admin extends Component {
-  state = {
-    // 控制左侧导航缩小的布尔值
-    collapsed: false,
-  }
-  // 控制左侧导航缩小的方法
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    })
-  }
-  render() {
-    const user = memeoryUtils.user
-    if (!user._id) {
-      return <Redirect to="/login" />
+    state = {
+        // 控制左侧导航缩小的布尔值
+        collapsed: false,
     }
-    return (
-      <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-          <div className="logo">
-            <Link to='/'>
-              <img src={logo} alt="react后台"/>
-              { !this.state.collapsed && <h1>后台管理系统</h1> }
-            </Link>
-          </div>
-          <LeftNva location={this.props.location}></LeftNva>
-        </Sider>
-        <Layout className="site-layout">
-          <Header toggle={this.toggle} collapsed={this.state.collapsed} location={this.props.location} history={this.props.history}></Header>
-          <Content className="site-layout-background" style={{ margin: '24px 16px', padding: 24, minHeight: screenHeight }}>
-            <Switch>
-              <Route path="/home" component={Home} />
-              <Route path="/category" component={Category} />
-              <Route path="/product" component={Product} />
-              <Route path="/role" component={Role} />
-              <Route path="/user" component={User} />
-              <Route path="/charts/bar" component={Bar} />
-              <Route path="/charts/line" component={Line} />
-              <Route path="/charts/pie" component={Pie} />
-              <Redirect to="/home" />
-            </Switch>
-          </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
-        </Layout>
-      </Layout>
-    )
-  }
+    // 控制左侧导航缩小的方法
+    toggle = () => {
+        this.setState({
+            collapsed: !this.state.collapsed,
+        })
+    }
+    render() {
+        const user = memeoryUtils.user
+        if (!user._id) {
+            return <Redirect to="/login" />
+        }
+        return (
+            <Layout>
+                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
+                    <div className="logo">
+                        <Link to="/">
+                            <img src={logo} alt="react后台" />
+                            {!this.state.collapsed && <h1>后台管理系统</h1>}
+                        </Link>
+                    </div>
+                    <LeftNva location={this.props.location}></LeftNva>
+                </Sider>
+                <Layout className="site-layout">
+                    <Header toggle={this.toggle} collapsed={this.state.collapsed} location={this.props.location} history={this.props.history}></Header>
+                    <Content className="site-layout-background" style={{ margin: '24px 16px', padding: 24, minHeight: screenHeight }}>
+                        <Switch>
+                            <Route path="/home" component={Home} />
+                            <Route path="/category" component={Category} />
+                            <Route path="/product" component={Product} />
+                            <Route path="/role" component={Role} />
+                            <Route path="/user" component={User} />
+                            <Route path="/charts/bar" component={Bar} />
+                            <Route path="/charts/line" component={Line} />
+                            <Route path="/charts/pie" component={Pie} />
+                            <Redirect to="/home" />
+                        </Switch>
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+                </Layout>
+            </Layout>
+        )
+    }
 }
