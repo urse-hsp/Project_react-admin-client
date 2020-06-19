@@ -6,6 +6,7 @@ import { reqCategorys } from '../../api/index'
 import LinkButton from '../../components/Link-button'
 
 import AddFrom from './component/addForm'
+import Updata from './component/updataForm'
 
 class Category extends Component {
     state = {
@@ -16,6 +17,7 @@ class Category extends Component {
         parentId: '0',
         parentName: '',
         showStatus: 0, // 表示添加 更新的确认框。0都不显示。1表示显示添加，2显示更新
+        updataForm: ''
     }
     componentWillMount() {
         this.initColumns()
@@ -36,7 +38,7 @@ class Category extends Component {
                 key: 'parentId',
                 render: (category) => (
                     <span>
-                        <LinkButton style={{ marginRight: 16 }} onClick={this.showUpdate}>
+                        <LinkButton style={{ marginRight: 16 }} onClick={this.showUpdate.bind(this,category)}>
                             修改分类
                         </LinkButton>
                         {this.state.parentId === '0' ? <LinkButton onClick={this.showSubCategorys.bind(this, category)}>查看子分类</LinkButton> : null}
@@ -91,15 +93,15 @@ class Category extends Component {
     shiwAdd = () => {
         this.setState({ showStatus: 1 })
     }
-    showUpdate = () => {
-        this.setState({ showStatus: 2 })
+    showUpdate = (data) => {
+        this.setState({ showStatus: 2, updataForm: data.name })
     }
     // 添加分类
     addCategory = () => {}
     // 更新分类
     updataCategory = () => {}
     render() {
-        const { categorys, loading, parentId, subCategorys, parentName, showStatus } = this.state
+        const { categorys, loading, parentId, subCategorys, parentName, showStatus, updataForm } = this.state
         const title =
             parentId === '0' ? (
                 '一级分类列表'
@@ -123,7 +125,7 @@ class Category extends Component {
                     <AddFrom categorys={categorys}></AddFrom>
                 </Modal>
                 <Modal title="更新分类" visible={showStatus === 2} onOk={this.updataCategory} onCancel={this.handleCancel}>
-                    <div>更像</div>
+                    <Updata showUpdataName={updataForm}></Updata>
                 </Modal>
             </Card>
         )
