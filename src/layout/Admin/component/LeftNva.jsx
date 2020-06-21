@@ -9,7 +9,7 @@ import { Menu } from 'antd'
 const { SubMenu } = Menu
 /*左侧导航组件*/
 
-const suba = ''
+// const suba = ''
 export default class LeftNav extends Component {
     state = {
         collapsed: true,
@@ -45,7 +45,7 @@ export default class LeftNav extends Component {
             if (item.children) {
                 item.children.forEach((items) => {
                     if (items.key === path) {
-                        this.setState({openKey: item.key})
+                        this.setState({ openKey: item.key })
                     }
                 })
             }

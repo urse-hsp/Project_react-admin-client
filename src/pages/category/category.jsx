@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import './index.less'
-import { Card, Table, Button, Modal } from 'antd'
+import { Card, Table, Button, Modal, message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { reqCategorys } from '../../api/index'
+import { reqCategorys, reqUpdateCategory, reqAddCategory } from '../../api/index'
 import LinkButton from '../../components/Link-button'
 
 import AddFrom from './component/addForm'
@@ -17,7 +17,7 @@ class Category extends Component {
         parentId: '0',
         parentName: '',
         showStatus: 0, // 表示添加 更新的确认框。0都不显示。1表示显示添加，2显示更新
-        updataForm: ''
+        chengID: 0,
     }
     componentWillMount() {
         this.initColumns()
@@ -38,7 +38,7 @@ class Category extends Component {
                 key: 'parentId',
                 render: (category) => (
                     <span>
-                        <LinkButton style={{ marginRight: 16 }} onClick={this.showUpdate.bind(this,category)}>
+                        <LinkButton style={{ marginRight: 16 }} onClick={this.showUpdate.bind(this, category)}>
                             修改分类
                         </LinkButton>
                         {this.state.parentId === '0' ? <LinkButton onClick={this.showSubCategorys.bind(this, category)}>查看子分类</LinkButton> : null}
@@ -88,20 +88,53 @@ class Category extends Component {
     // 关闭对话框
     handleCancel = () => {
         this.setState({ showStatus: 0 })
+        // this.form.current.resetFields()
     }
     // 显示添加对话框
     shiwAdd = () => {
         this.setState({ showStatus: 1 })
     }
     showUpdate = (data) => {
-        this.setState({ showStatus: 2, updataForm: data.name })
+        this.updataForm = data
+        this.setState({ showStatus: 2 })
     }
     // 添加分类
-    addCategory = () => {}
+    addCategory = async () => {
+
+        const classifyID = this.form.current.getFieldValue('classifyID')
+        const categoryName = this.form.current.getFieldValue('classifyName2')
+        const res = await reqAddCategory(categoryName, classifyID ===undefined?0:classifyID)
+        if (res.status !== 0) {
+            return message.error(res.msg)
+        }
+        message.success('添加分类成功')
+        this.setState({
+            showStatus: 0,
+        })
+        this.getCategorys()
+        this.form.current.resetFields()
+    }
     // 更新分类
-    updataCategory = () => {}
+    updataCategory = async () => {
+        this.setState({ showStatus: 0 })
+        const categoryId = this.updataForm._id
+        const categoryName = this.form.current.getFieldValue('classifyName')
+        if (categoryName === undefined) {
+            return message.error('不能为空')
+        }
+        if (this.updataForm.name === categoryName) {
+            return null
+        }
+        const res = await reqUpdateCategory({ categoryId, categoryName })
+        if (res.status === 0) {
+            message.success('修改分类成功')
+            this.form.current.resetFields()
+            this.getCategorys()
+        }
+    }
     render() {
-        const { categorys, loading, parentId, subCategorys, parentName, showStatus, updataForm } = this.state
+        const { categorys, loading, parentId, subCategorys, parentName, showStatus } = this.state
+        const updataForm = this.updataForm || {}
         const title =
             parentId === '0' ? (
                 '一级分类列表'
@@ -122,10 +155,22 @@ class Category extends Component {
             <Card title={title} extra={extra}>
                 <Table dataSource={parentId === '0' ? categorys : subCategorys} columns={this.columns} bordered={true} loading={loading} />
                 <Modal title="添加分类" visible={showStatus === 1} onOk={this.addCategory} onCancel={this.handleCancel}>
-                    <AddFrom categorys={categorys}></AddFrom>
+                    <AddFrom
+                        categorys={categorys}
+                        parentId={parentId}
+                        setForm={(form) => {
+                            this.form = form
+                        }}
+                    ></AddFrom>
                 </Modal>
                 <Modal title="更新分类" visible={showStatus === 2} onOk={this.updataCategory} onCancel={this.handleCancel}>
-                    <Updata showUpdataName={updataForm}></Updata>
+                    <Updata
+                        categoryName={updataForm.name}
+                        showUpdate={this.updataForm}
+                        setForm={(form) => {
+                            this.form = form
+                        }}
+                    ></Updata>
                 </Modal>
             </Card>
         )
