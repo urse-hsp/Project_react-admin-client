@@ -44,7 +44,7 @@ export default class LeftNav extends Component {
         MenuConfig.forEach((item) => {
             if (item.children) {
                 item.children.forEach((items) => {
-                    if (items.key === path) {
+                    if (path.indexOf(items.key)!==- 1) {
                         this.setState({ openKey: item.key })
                     }
                 })

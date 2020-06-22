@@ -47,6 +47,8 @@ export const reqAddCategory = (categoryName, parentId) => http(BASE + '/manage/c
 export const reqUpdateCategory = ({categoryId, categoryName}) => http(BASE + '/manage/category/update', {categoryId, categoryName}, 'POST')
 
 
+// 获取一个分类
+export const reqCategory = (categoryId) => http(BASE + '/manage/category/info', {categoryId})
 
 // 获取商品分页列表
 export const reqProducts = (pageNum, pageSize) => http(BASE + '/manage/product/list', {pageNum, pageSize})

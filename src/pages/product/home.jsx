@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Card, Select, Input, Button, Table } from 'antd'
+import { Card, Select, Input, Button, Table,message } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import LinkButton from '../../components/Link-button'
-import { reqProducts, reqSearchProducts } from '../../api/index.js'
+import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api/index.js'
 import { PAGE_SIZE } from '../../utils/constants'
 
 const Option = Select.Option
@@ -36,12 +36,15 @@ class ProductHome extends Component {
             {
                 width: 100,
                 title: '状态',
-                dataIndex: 'status',
-                render: (status) => {
+                // dataIndex: 'status',
+                render: (product) => {
+                    const {status, _id} = product
+                    const newStatus = status===1 ? 2 : 1
+                    console.log(product)
                     return (
                         <span>
-                            <Button type="primary">下架</Button>
-                            <span>在售</span>
+                            <Button type="primary" onClick={this.UpdateStatus.bind(this,_id,newStatus)}>{status===1?'下架':'上架'}</Button>
+                            <span>{status===1?'在售':'已下架'}</span>
                         </span>
                     )
                 },
@@ -52,7 +55,7 @@ class ProductHome extends Component {
                 render: (product) => {
                     return (
                         <span>
-                            <LinkButton>详情</LinkButton>
+                            <LinkButton onClick={()=> this.props.history.push(`product/detail`,{product})}>详情</LinkButton>
                             <LinkButton>修改</LinkButton>
                         </span>
                     )
@@ -62,6 +65,7 @@ class ProductHome extends Component {
     }
     // 获取页面请求
     getProducts = async (pageNum) => {
+        this.pageNum = pageNum // 保存pageNum, 让其它方法可以看到
         this.setState({ loading: true })
         const { searchName, searchType } = this.state
         // 此处作为判断 一方法多用请求
@@ -86,8 +90,17 @@ class ProductHome extends Component {
                 total,
                 products: list,
             })
+            console.log(result)
         }
-        console.log(result)
+    }
+    UpdateStatus = async (_id,newStatus) =>{
+        const res = await reqUpdateStatus(_id,newStatus)
+        console.log(res)
+        if (res.status === 0) {
+            message.success('更新成功')
+        }
+        this.getProducts(this.pageNum)
+
     }
     componentWillMount() {
         this.initCplumns()
@@ -103,12 +116,17 @@ class ProductHome extends Component {
                     <Option value="productName">按名称搜索</Option>
                     <Option value="productDesc">按描述搜索</Option>
                 </Select>
-                <Input placeholder="关键字" style={{ width: 150, margin: '0 15px' }} value={searchName} onChange={(event) => this.setState({ searchType: event.target.value })} />
-                <Button type="primary">搜索</Button>
+                <Input placeholder="关键字" style={{ width: 150, margin: '0 15px' }} value={searchName} onChange={(event) => this.setState({ searchName: event.target.value })} />
+                <Button type="primary" onClick={() => this.getProducts(1)}>
+                    搜索
+                </Button>
             </span>
         )
         const extra = (
-            <Button type="primary" icon={<PlusOutlined />}>
+            <Button type="primary" 
+                icon={<PlusOutlined />}
+                onClick={()=> this.props.history.push(`/product/addupdate`)}
+            >
                 添加商品
             </Button>
         )
@@ -125,7 +143,7 @@ class ProductHome extends Component {
                         total,
                         defaultPageSize: PAGE_SIZE,
                         showQuickJumper: true,
-                        onChange: this.getProducts,
+                        onChange: this.getProducts, //点击分页请求，返回的参数直接是函数的参数
                     }}
                 />
             </Card>
