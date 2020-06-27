@@ -66,4 +66,22 @@ export const reqSearchProducts = ({pageNum, pageSize, searchName, searchType}) =
   [searchType]: searchName,
 })
 
+// 删除指定名称的图片
+export const reqDeleteImg = (name) => http(BASE + '/manage/img/delete', {name}, 'POST')
+
+// 添加/修改商品
+export const reqAddOrUpdateProduct = (product) => http(BASE + '/manage/product/' + ( product._id?'update':'add'), product, 'POST')
+// 修改商品
+// export const reqUpdateProduct = (product) => ajax(BASE + '/manage/product/update', product, 'POST')
+
+
+
+// 获取所有角色的列表
+export const reqRoles = () => http(BASE + '/manage/role/list')
+// 添加角色
+export const reqAddRole = (roleName) => http(BASE + '/manage/role/add', {roleName}, 'POST')
+// 添加角色
+export const reqUpdateRole = (role) => http(BASE + '/manage/role/update', role, 'POST')
+
+
 

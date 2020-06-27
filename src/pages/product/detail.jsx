@@ -27,7 +27,7 @@ class ProductDetail extends Component {
     }
     render() {
         const { name, desc, detail, imgs, price } = this.props.location.state.product
-        const { cname1, cname2 } = this.state
+        const { cName1, cName2 } = this.state
         const title = (
             <span>
                 <span>
@@ -54,8 +54,8 @@ class ProductDetail extends Component {
                     <Item>
                         <span className="left">商品分类:</span>
                         <span>
-                            {cname1}
-                            {cname2 ? '-->' + cname2 : ''}
+                            {/* {cname1} */}
+                            {cName1 ? cName1 + ' --> ' + cName2 : ''}
                         </span>
                     </Item>
                     <Item>
