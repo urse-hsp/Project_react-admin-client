@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, Button, Table, Modal, message } from 'antd'
-import { PAGE_SIZE } from '../../utils/constants'
+// import { PAGE_SIZE } from '../../utils/constants'
 import { reqRoles, reqAddRole, reqUpdateRole } from '../../api'
 import AddForm from './add-form'
 import AuthForm from './auth-form'
@@ -54,7 +54,6 @@ class Role extends Component {
     onRow = (role) => {
         return {
             onClick: (event) => {
-                console.log(role)
                 this.setState({
                     role,
                 })

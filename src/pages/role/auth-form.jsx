@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
-// import PropTypes from "prop-types";
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Form, Input, Tree } from 'antd'
 import menuList from '../../config/menuConfig'
-console.log(menuList)
 
 const Item = Form.Item
 const { TreeNode } = Tree
 
 /* 添加分类的form组件 */
-class AuthForm extends Component {
-    // static propTypes = {
-    //     role: PropTypes.object,
-    // }
+class AuthForm extends PureComponent {
+    static propTypes = {
+        role: PropTypes.object,
+    }
     state = {
         checkedKeys: [],
     }
@@ -43,7 +42,6 @@ class AuthForm extends Component {
 
     // 选中某个node时的回调
     onCheck = (checkedKeys) => {
-        console.log('onCheck', checkedKeys)
         this.setState({ checkedKeys })
     }
 

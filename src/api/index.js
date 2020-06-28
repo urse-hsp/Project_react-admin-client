@@ -84,4 +84,9 @@ export const reqAddRole = (roleName) => http(BASE + '/manage/role/add', {roleNam
 export const reqUpdateRole = (role) => http(BASE + '/manage/role/update', role, 'POST')
 
 
-
+// 获取所有用户的列表
+export const reqUsers = () => http(BASE + '/manage/user/list')
+// 删除指定用户
+export const reqDeleteUser = (userId) => http(BASE + '/manage/user/delete', {userId}, 'POST')
+// 添加/更新用户
+export const reqAddOrUpdateUser = (user) => http(BASE + '/manage/user/'+(user._id ? 'update' : 'add'), user, 'POST')

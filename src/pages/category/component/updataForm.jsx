@@ -3,7 +3,7 @@ import React from 'react'
 
 import { Form, Input } from 'antd'
 import './index.less'
-import { compose } from 'redux'
+// import { compose } from 'redux'
 
 const FromItem = Form.Item
 

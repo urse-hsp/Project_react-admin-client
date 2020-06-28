@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, List, Form, Input, Cascader, message, Button } from 'antd'
+import { Card, Form, Input, Cascader, message, Button } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 import { reqCategorys, reqAddOrUpdateProduct } from '../../api'
 import RichTextEditor from './rich-text-editor'

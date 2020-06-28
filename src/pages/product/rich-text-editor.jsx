@@ -1,6 +1,5 @@
-/*
-用来指定商品详情的富文本编辑器组件
- */
+/* 用来指定商品详情的富文本编辑器组件 */
+
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'

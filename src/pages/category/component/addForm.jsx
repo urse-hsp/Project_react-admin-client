@@ -40,7 +40,7 @@ class AddForm extends React.Component {
                 </FromItem>
 
                 <FromItem label="分类名称：" name="classifyName2" rules={loginRules.classifyName}>
-                    <Input type="text" placeholder="请输入分类名称 "/>
+                    <Input type="text" placeholder="请输入分类名称 " />
                 </FromItem>
             </Form>
         )
