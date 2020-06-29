@@ -16,19 +16,16 @@ export default class LeftNav extends Component {
         collapsed: true,
         openKey: [],
     }
-    /*
-  判断当前登陆用户对item是否有权限
-   */
+    /* 判断当前登陆用户对item是否有权限 */
     hasAuth = (item) => {
         const { key, isPublic } = item
-
         const menus = memoryUtils.user.role.menus
         const username = memoryUtils.user.username
         /*
-    1. 如果当前用户是admin
-    2. 如果当前item是公开的
-    3. 当前用户有此item的权限: key有没有menus中
-     */
+            1. 如果当前用户是admin
+            2. 如果当前item是公开的
+            3. 当前用户有此item的权限: key有没有menus中
+        */
         if (username === 'admin' || isPublic || menus.indexOf(key) !== -1) {
             return true
         } else if (item.children) {
@@ -44,24 +41,24 @@ export default class LeftNav extends Component {
             collapsed: !this.state.collapsed,
         })
     }
-    // 递归传递菜单数据
-    menuConfig = (MenuConfig) => {
-        return MenuConfig.map((item) => {
-            if (!item.children) {
-                return (
-                    <Menu.Item key={item.key} icon={<item.icon />}>
-                        <Link to={item.key}>{item.title}</Link>
-                    </Menu.Item>
-                )
-            } else {
-                return (
-                    <SubMenu key={item.key} icon={<item.icon />} title={item.title}>
-                        {this.menuConfig(item.children)}
-                    </SubMenu>
-                )
-            }
-        })
-    }
+    //2 递归传递菜单数据
+    // menuConfig = (MenuConfig) => {
+    //     return MenuConfig.map((item) => {
+    //         if (!item.children) {
+    //             return (
+    //                 <Menu.Item key={item.key} icon={<item.icon />}>
+    //                     <Link to={item.key}>{item.title}</Link>
+    //                 </Menu.Item>
+    //             )
+    //         } else {
+    //             return (
+    //                 <SubMenu key={item.key} icon={<item.icon />} title={item.title}>
+    //                     {this.menuConfig(item.children)}
+    //                 </SubMenu>
+    //             )
+    //         }
+    //     })
+    // }
 
     /*
   根据menu的数据数组生成对应的标签数组
@@ -70,7 +67,6 @@ export default class LeftNav extends Component {
     getMenuNodes = (menuList) => {
         // 得到当前请求的路由路径
         const path = this.props.location.pathname
-
         return menuList.reduce((pre, item) => {
             // 如果当前用户有item对应的权限, 才需要显示对应的菜单项
             if (this.hasAuth(item)) {
@@ -90,7 +86,6 @@ export default class LeftNav extends Component {
                     if (cItem) {
                         this.openKey = item.key
                     }
-
                     // 向pre添加<SubMenu>
                     pre.push(
                         <SubMenu
@@ -112,7 +107,7 @@ export default class LeftNav extends Component {
         }, [])
     }
 
-    // 判断path 刷新不然列表缩进
+    //2 判断path 刷新不然列表缩进
     // menuConfig2 = (MenuConfig) => {
     //     const path = this.props.location.pathname
     //     MenuConfig.forEach((item) => {
@@ -135,7 +130,7 @@ export default class LeftNav extends Component {
             <div className="left-nav">
                 {/*  inlineCollapsed={this.state.collapsed}  */}
                 <Menu defaultOpenKeys={[`${this.openKey}`]} mode="inline" theme="dark" selectedKeys={path}>
-                    {/* {this.menuConfig(menuConfig)} */}
+                    {/*2 {this.menuConfig(menuConfig)} */}
                     {this.menuNodes}
                 </Menu>
             </div>

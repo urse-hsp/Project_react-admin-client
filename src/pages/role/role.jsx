@@ -145,7 +145,15 @@ class Role extends Component {
                     dataSource={roles}
                     columns={this.columns}
                     pagination={{ defaultPageSize: 5 }}
-                    rowSelection={{ type: 'radio', selectedRowKeys: [role._id] }}
+                    rowSelection={{
+                        type: 'radio',
+                        selectedRowKeys: [role._id],
+                        onSelect: (role) => {
+                            this.setState({
+                                role,
+                            })
+                        },
+                    }}
                     onRow={this.onRow}
                 />
                 <Modal

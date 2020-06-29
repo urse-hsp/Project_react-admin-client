@@ -136,6 +136,7 @@ class ProductHome extends Component {
                     columns={this.columns}
                     // rowKey={}
                     pagination={{
+                        current: this.pageNum,
                         total,
                         defaultPageSize: PAGE_SIZE,
                         showQuickJumper: true,
