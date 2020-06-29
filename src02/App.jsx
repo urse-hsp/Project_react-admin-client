@@ -1,17 +1,11 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
+import {increment, decrement} from './redux/actions'
 
-/*
-UI组件
-  主要做显示与与用户交互
-  代码中没有任何redux相关的代码
- */
-export default class Counter extends Component {
+export default class App extends Component {
 
   static propTypes = {
-    count: PropTypes.number.isRequired,
-    increment: PropTypes.func.isRequired,
-    decrement: PropTypes.func.isRequired
+    store: PropTypes.object.isRequired
   }
 
 
@@ -23,18 +17,18 @@ export default class Counter extends Component {
 
   increment = () => {
     const number = this.numberRef.current.value * 1
-    this.props.increment(number)
+    this.props.store.dispatch(increment(number))
   }
 
   decrement = () => {
     const number = this.numberRef.current.value * 1
-    this.props.decrement(number)
+    this.props.store.dispatch(decrement(number))
   }
 
   incrementIfOdd = () => {
     const number = this.numberRef.current.value * 1
-    if (this.props.count % 2 === 1) {
-      this.props.increment(number)
+    if (this.props.store.getState() % 2 === 1) {
+      this.props.store.dispatch(increment(number))
     }
 
   }
@@ -42,12 +36,13 @@ export default class Counter extends Component {
   incrementAsync = () => {
     const number = this.numberRef.current.value * 1
     setTimeout(() => {
-      this.props.increment(number)
+      this.props.store.dispatch(increment(number))
     }, 1000)
   }
 
   render() {
-    const count = this.props.count
+    const count = this.props.store.getState()
+    console.log(this.props.store.getState())
 
     return (
       <div>
