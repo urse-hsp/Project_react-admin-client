@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import memeoryUtils from '../../utils/memoryUtils'
+import memeoryUtils from '../../utils/memoryUtils'
 import { Layout } from 'antd'
 import { Route, Switch, Redirect, Link } from 'react-router-dom'
 
@@ -8,7 +8,6 @@ import logo from '../../assets/images/logo512.png'
 import './admin.less'
 import Header from './component/Header'
 import LeftNva from './component/LeftNva'
-import { connect } from 'react-redux'
 
 // 路由导入组件
 import Home from '../../pages/home/home'
@@ -25,7 +24,7 @@ const { Sider, Content, Footer } = Layout
 const screenHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 /*后台管理的路由组件*/
 
-class Admin extends Component {
+export default class Admin extends Component {
     state = {
         // 控制左侧导航缩小的布尔值
         collapsed: false,
@@ -37,7 +36,7 @@ class Admin extends Component {
         })
     }
     render() {
-        const user = this.props.user
+        const user = memeoryUtils.user
         if (!user._id) {
             return <Redirect to="/login" />
         }
@@ -73,4 +72,3 @@ class Admin extends Component {
         )
     }
 }
-export default connect((state) => ({ user: state.user }), {})(Admin)

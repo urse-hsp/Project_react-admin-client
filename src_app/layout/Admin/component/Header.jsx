@@ -2,19 +2,19 @@ import React, { Component } from 'react'
 import './index.less'
 import { MenuUnfoldOutlined, MenuFoldOutlined } from '@ant-design/icons'
 import { Layout, Modal } from 'antd'
-import { connect } from 'react-redux'
-// import menuConfig from '../../../config/menuConfig'
+// import { Layout } from 'antd'
+
+import menuConfig from '../../../config/menuConfig'
 // import { reqWeather } from '../../../api/index'
 import { formateDate } from '../../../utils/dateUtils'
-// import memoryUtils from '../../../utils/memoryUtils'
+import memoryUtils from '../../../utils/memoryUtils'
 import storageUtils from '../../../utils/storageUtils'
 import LinkButton from '../../../components/Link-button'
-import { logout } from '../../../redux/actions'
 const { Header } = Layout
 
 /*左侧导航组件
  */
-class TopHeader extends Component {
+class topHeader extends Component {
     state = {
         intervalId: null,
         sysTime: formateDate(Date.now()),
@@ -38,11 +38,9 @@ class TopHeader extends Component {
             content: '确定退出吗?',
             onOk: () => {
                 console.log('OK')
-                // // 移除保存的 user
-                // storageUtils.removeUser()
-                // memoryUtils.user = {}
-
-                this.props.logout()
+                // 移除保存的 user
+                storageUtils.removeUser()
+                memoryUtils.user = {}
                 // 跳转到 login
                 this.props.history.replace('/login')
             },
@@ -51,24 +49,22 @@ class TopHeader extends Component {
             },
         })
     }
-
     /*根据请求的 path 得到对应的标题 */
-    // getTitle = (path, MenuConfig) => {
-    //     let title = ''
-    //     MenuConfig.forEach((menu) => {
-    //         if (menu.key === path) {
-    //             title = menu.title
-    //         } else if (menu.children) {
-    //             menu.children.forEach((item) => {
-    //                 if (path.indexOf(item.key) === 0) {
-    //                     title = item.title
-    //                 }
-    //             })
-    //         }
-    //     })
-    //     return title
-    // }
-
+    getTitle = (path, MenuConfig) => {
+        let title = ''
+        MenuConfig.forEach((menu) => {
+            if (menu.key === path) {
+                title = menu.title
+            } else if (menu.children) {
+                menu.children.forEach((item) => {
+                    if (path.indexOf(item.key) === 0) {
+                        title = item.title
+                    }
+                })
+            }
+        })
+        return title
+    }
     componentDidMount() {
         this.getSysTime()
     }
@@ -82,10 +78,9 @@ class TopHeader extends Component {
     render() {
         const { sysTime, dayPictureUrl, weather } = this.state
         // // 得到当前用户
-        const user = this.props.user.username
+        const user = memoryUtils.user.username
         // 得到对应的标题
-        // const title = this.getTitle(this.props.location.pathname, menuConfig)
-        const title = this.props.headTitle
+        const title = this.getTitle(this.props.location.pathname, menuConfig)
         return (
             <Header className="site-layout-background header" style={{ padding: 0 }}>
                 {React.createElement(this.props.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
@@ -109,16 +104,4 @@ class TopHeader extends Component {
         )
     }
 }
-
-// export default TopHeader
-
-/*
-withRouter高阶组件:
-包装非路由组件, 返回一个新的组件
-新的组件向非路由组件传递3个属性: history/location/match
- */
-// export default connect((state) => ({ user: state.user }), { setHeadTitle })(TopHeader)
-export default connect(
-    state => ({headTitle: state.headTitle, user: state.user}),
-    {logout}
-  )(TopHeader)
+export default topHeader

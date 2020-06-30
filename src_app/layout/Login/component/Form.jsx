@@ -34,7 +34,7 @@ const FormMenu = (props) => {
                 props.login(values.username, values.password)
             })
             .catch((errorInfo) => {
-                return message.error('验证失败')
+                return message.error('登录失败')
             })
     }
     return (

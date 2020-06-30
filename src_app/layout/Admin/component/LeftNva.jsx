@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
 import './index.less'
+
 // 导航栏数据
 import menuConfig from '../../../config/menuConfig'
 import { Link } from 'react-router-dom'
 import { Menu } from 'antd'
-// import memoryUtils from '../../../utils/memoryUtils'
-import { connect } from 'react-redux'
-import { setHeadTitle } from '../../../redux/actions'
+import memoryUtils from '../../../utils/memoryUtils'
 
 const { SubMenu } = Menu
 /*左侧导航组件*/
 
 // const suba = ''
-class LeftNav extends Component {
+export default class LeftNav extends Component {
     state = {
         collapsed: true,
         openKey: [],
@@ -20,8 +19,8 @@ class LeftNav extends Component {
     /* 判断当前登陆用户对item是否有权限 */
     hasAuth = (item) => {
         const { key, isPublic } = item
-        const menus = this.props.user.role.menus
-        const username = this.props.user.username
+        const menus = memoryUtils.user.role.menus
+        const username = memoryUtils.user.username
         /*
             1. 如果当前用户是admin
             2. 如果当前item是公开的
@@ -71,16 +70,11 @@ class LeftNav extends Component {
         return menuList.reduce((pre, item) => {
             // 如果当前用户有item对应的权限, 才需要显示对应的菜单项
             if (this.hasAuth(item)) {
-                // 判断item是否是当前对应的item
-                if (item.key === path || path.indexOf(item.key) === 0) {
-                    // 更新redux中的headerTitle状态
-                    this.props.setHeadTitle(item.title)
-                }
                 // 向pre添加<Menu.Item>
                 if (!item.children) {
                     pre.push(
                         <Menu.Item key={item.key} icon={<item.icon />}>
-                            <Link to={item.key} onClick={() => this.props.setHeadTitle(item.title)}>
+                            <Link to={item.key}>
                                 <span>{item.title}</span>
                             </Link>
                         </Menu.Item>
@@ -143,5 +137,3 @@ class LeftNav extends Component {
         )
     }
 }
-// export default LeftNav
-export default connect((state) => ({ user: state.user }), { setHeadTitle })(LeftNav)
