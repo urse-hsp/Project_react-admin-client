@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // import { reqWeather } from '../../../api/index'
 import { formateDate } from '../../../utils/dateUtils'
 // import memoryUtils from '../../../utils/memoryUtils'
-import storageUtils from '../../../utils/storageUtils'
+// import storageUtils from '../../../utils/storageUtils'
 import LinkButton from '../../../components/Link-button'
 import { logout } from '../../../redux/actions'
 const { Header } = Layout

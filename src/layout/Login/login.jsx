@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './login.less'
 import logo from '../../assets/images/logo512.png'
-import { message } from 'antd'
+// import { message } from 'antd'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../redux/actions'
