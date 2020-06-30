@@ -1,16 +1,13 @@
-/*
-入口js
- */
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
-import App from './containers/App'
-import store from './redux/store'
+import storageUtils from './utils/storageUtils'
+import memoryUtils from './utils/memoryUtils'
+// 如果 local 中保存了 user, 将 user 保存到内存中
+const user = storageUtils.getUser()
+if (user && user._id) {
+    memoryUtils.user = user
+}
 
-ReactDOM.render((
-  <Provider store={store}>
-    <App/>
-  </Provider>
-), document.getElementById('root'))
-
+ReactDOM.render( < App / > , document.getElementById("root"));
