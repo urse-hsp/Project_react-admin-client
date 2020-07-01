@@ -19,6 +19,7 @@ import User from '../../pages/user/user'
 import Bar from '../../pages/charts/bar'
 import Line from '../../pages/charts/line'
 import Pie from '../../pages/charts/pie'
+import NotFound from '../../pages/not-found/not-found'
 
 const { Sider, Content, Footer } = Layout
 
@@ -42,7 +43,7 @@ class Admin extends Component {
             return <Redirect to="/login" />
         }
         return (
-            <Layout>
+            <Layout style={{ minHeight: '100%' }}>
                 <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
                     <div className="logo">
                         <Link to="/">
@@ -54,8 +55,9 @@ class Admin extends Component {
                 </Sider>
                 <Layout className="site-layout">
                     <Header toggle={this.toggle} collapsed={this.state.collapsed} location={this.props.location} history={this.props.history}></Header>
-                    <Content className="site-layout-background" style={{ margin: '24px 16px', padding: 24, minHeight: screenHeight }}>
+                    <Content className="site-layout-background" style={{ margin: '24px 16px' }}>
                         <Switch>
+                            <Redirect exact from="/" to="/home" />
                             <Route path="/home" component={Home} />
                             <Route path="/category" component={Category} />
                             <Route path="/product" component={Product} />
@@ -64,7 +66,7 @@ class Admin extends Component {
                             <Route path="/charts/bar" component={Bar} />
                             <Route path="/charts/line" component={Line} />
                             <Route path="/charts/pie" component={Pie} />
-                            <Redirect to="/home" />
+                            <Route component={NotFound} />
                         </Switch>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

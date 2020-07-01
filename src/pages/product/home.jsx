@@ -4,6 +4,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import LinkButton from '../../components/Link-button'
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api/index.js'
 import { PAGE_SIZE } from '../../utils/constants'
+import memoryUtils from '../../utils/memoryUtils'
 
 const Option = Select.Option
 
@@ -56,14 +57,27 @@ class ProductHome extends Component {
                 render: (product) => {
                     return (
                         <span>
-                            <LinkButton onClick={() => this.props.history.push(`product/detail`, { product })}>详情</LinkButton>
-                            <LinkButton onClick={() => this.props.history.push(`product/addupdate`, product)}>修改</LinkButton>
+                            <LinkButton onClick={() => this.showDetail(product)}>详情</LinkButton>
+                            <LinkButton onClick={() => this.showUpdate(product)}>修改</LinkButton>
                         </span>
                     )
                 },
             },
         ]
     }
+    /* 显示商品详情界面 */
+    showDetail = (procut) => {
+        // 缓存product对象 ==> 给detail组件使用
+        memoryUtils.product = procut
+        this.props.history.push('/product/detail')
+    }
+    /* 显示修改商品界面 */
+    showUpdate = (procut) => {
+        // 缓存product对象 ==> 给detail组件使用
+        memoryUtils.product = procut
+        this.props.history.push('/product/addupdate')
+    }
+
     // 获取页面请求
     getProducts = async (pageNum) => {
         this.pageNum = pageNum // 保存pageNum, 让其它方法可以看到

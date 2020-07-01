@@ -3,6 +3,7 @@ import { Card, List } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 import { BASE_IMG_URL } from '../../utils/constants'
 import { reqCategory } from '../../api/index'
+import memoryUtils from '../../utils/memoryUtils'
 const Item = List.Item
 
 class ProductDetail extends Component {
@@ -12,7 +13,7 @@ class ProductDetail extends Component {
     }
     async componentDidMount() {
         // const {CategoryId, categoryId} = memoryUtils.product
-        const { categoryId, pCategoryId } = this.props.location.state.product
+        const { categoryId, pCategoryId } = memoryUtils.product
         if (pCategoryId === '0') {
             const res = await reqCategory(categoryId)
             const cName1 = res.data.name
@@ -25,8 +26,12 @@ class ProductDetail extends Component {
             this.setState({ cName1, cName2 })
         }
     }
+    /* 在卸载之前清除保存的数据 */
+    componentWillUnmount() {
+        memoryUtils.product = {}
+    }
     render() {
-        const { name, desc, detail, imgs, price } = this.props.location.state.product
+        const { name, desc, detail, imgs, price } = memoryUtils.product
         const { cName1, cName2 } = this.state
         const title = (
             <span>

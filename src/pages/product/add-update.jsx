@@ -3,6 +3,7 @@ import { Card, Form, Input, Cascader, message, Button } from 'antd'
 import { LeftOutlined } from '@ant-design/icons'
 import { reqCategorys, reqAddOrUpdateProduct } from '../../api'
 import RichTextEditor from './rich-text-editor'
+import memoryUtils from '../../utils/memoryUtils'
 
 import PicturesWall from './prctures-wall'
 import LinkButton from '../../components/Link-button'
@@ -117,9 +118,9 @@ class ProductAddUpdate extends Component {
 
     componentWillMount() {
         // 取出携带的state
-        const product = this.props.location.state // 如果是添加没值, 否则有值
+        const product = memoryUtils.product // 如果是添加没值, 否则有值
         // 保存是否是更新的标识
-        this.isUpdate = !!product
+        this.isUpdate = !!product._id
         // 保存商品(如果没有, 保存是{})
         this.product = product || {}
     }
@@ -189,6 +190,10 @@ class ProductAddUpdate extends Component {
         this.setState({
             options: [...this.state.options],
         })
+    }
+    /* 在卸载之前清除保存的数据 */
+    componentWillUnmount() {
+        memoryUtils.product = {}
     }
     render() {
         const { isUpdate, product } = this
