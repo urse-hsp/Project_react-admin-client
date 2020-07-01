@@ -153,7 +153,6 @@ class ProductAddUpdate extends Component {
             product._id = this.product._id
         }
         const result = await reqAddOrUpdateProduct(product)
-
         // 3. 根据结果提示
         if (result.status === 0) {
             message.success(`${this.isUpdate ? '更新' : '添加'}商品成功!`)

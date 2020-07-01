@@ -23,7 +23,7 @@ react-redux库的主模块
 export class Provider extends React.Component {
 
   static propTypes = {
-    store: PropTypes.object.isRequired  // 声明接收store
+    store: PropTypes.object.isRequired // 声明接收store
   }
 
   // 声明提供的context的数据名称和类型
@@ -34,7 +34,7 @@ export class Provider extends React.Component {
   /*
   向所有有声明子组件提供包含要传递数据的context对象
    */
-  getChildContext () {
+  getChildContext() {
     return {
       store: this.props.store
     }
@@ -62,25 +62,29 @@ export function connect(mapStateToProps, mapDispatchToProps) {
         store: PropTypes.object
       }
 
-      constructor (props, context) {
+      constructor(props, context) {
         super(props)
         console.log('ContainerComponent constructor()', context.store)
 
         // 得到store
-        const {store} = context
+        const {
+          store
+        } = context
         // 得到包含所有一般属性的对象
-        const stateProps = mapStateToProps(store.getState())  // {count: 1}
+        const stateProps = mapStateToProps(store.getState()) // {count: 1}
         // 将所有一般属性作为容器的状态数据
-        this.state = {...stateProps}
+        this.state = {
+          ...stateProps
+        }
 
         //得到包含所有函数属性的对象
         let dispatchProps
-        if(typeof mapDispatchToProps==='function') {
+        if (typeof mapDispatchToProps === 'function') {
           dispatchProps = mapDispatchToProps(store.dispatch)
         } else {
           dispatchProps = Object.keys(mapDispatchToProps).reduce((pre, key) => {
             const actionCreator = mapDispatchToProps[key]
-            pre[key] = (...args) => store.dispatch(actionCreator(...args))   // 参数透传
+            pre[key] = (...args) => store.dispatch(actionCreator(...args)) // 参数透传
             return pre
           }, {})
         }
@@ -91,16 +95,22 @@ export function connect(mapStateToProps, mapDispatchToProps) {
         // 绑定store的state变化的监听
         store.subscribe(() => { // store内部的状态数据发生了变化
           // 更新容器组件 ==> UI组件更新
-          this.setState({...mapStateToProps(store.getState())})
+          this.setState({
+            ...mapStateToProps(store.getState())
+          })
         })
       }
 
-      render () {
+      render() {
         // 返回UI组件的标签
-        return <UIComponent  {...this.state} {...this.dispatchProps}/>
+        return <UIComponent {
+          ...this.state
+        } {
+          ...this.dispatchProps
+        }
+        />
       }
     }
 
   }
 }
-

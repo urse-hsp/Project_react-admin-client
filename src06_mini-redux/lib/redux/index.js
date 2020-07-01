@@ -16,13 +16,15 @@ redux库的主模块
  */
 export function createStore(reducer) {
   // 用来存储内部状态数据的变量, 初始值为调用reducer函数返回的结果(外部指定的默认值)
-  let state = reducer(undefined, {type: '@@redux/init'})
+  let state = reducer(undefined, {
+    type: '@@redux/init'
+  })
   // 用来存储监听state更新回调函数的数组容器
   const listeners = []
   /*
   返回当前内部的state数据
    */
-  function getState () {
+  function getState() {
     return state
   }
 
@@ -32,7 +34,7 @@ export function createStore(reducer) {
   2). 保存新的state
   3). 调用所有已存在的监视回调函数
    */
-  function dispatch (action) {
+  function dispatch(action) {
     // 1). 触发reducer调用, 得到新的state
     const newState = reducer(state, action)
     // 2). 保存新的state
@@ -45,7 +47,7 @@ export function createStore(reducer) {
   绑定内部state改变的监听回调
   可以给一个store绑定多个监听
    */
-  function subscribe (listener) {
+  function subscribe(listener) {
     // 保存到缓存listener的容器数组中
     listeners.push(listener)
   }
